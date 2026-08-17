@@ -46,7 +46,7 @@ add_subdirectory(extern/TetraCore SYSTEM)
 
 
 # Now we can specify our own project which will inherit any global cmake properties or variables that have been defined.
-project(TetraGodot)
+project(tetra-godot)
 
 add_library(${LIBNAME} SHARED)
 

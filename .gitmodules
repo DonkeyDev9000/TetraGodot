@@ -2,6 +2,3 @@
 	path = godot-cpp
 	url = https://github.com/godotengine/godot-cpp.git
 	branch = 4.3
-[submodule "extern/TetraCore"]
-	path = extern/TetraCore
-	url = https://github.com/DonkeyDev9000/TetraCore.git

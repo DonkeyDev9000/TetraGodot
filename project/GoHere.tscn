@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://di4b5w4kt8t6p"]
+
+[ext_resource type="Texture2D" uid="uid://dbx66sovxd1" path="res://icon.svg" id="1_ddrd1"]
+
+[node name="GoHere" type="Node2D" unique_id=1383434394]
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1099864098]
+offset_left = 309.0
+offset_top = 95.0
+offset_right = 899.0
+offset_bottom = 521.0
+texture = ExtResource("1_ddrd1")

@@ -13,9 +13,9 @@
 
 #include "godot_cpp/variant/utility_functions.hpp"
 
-#include "tetris/Tetra.h"
-#include "tetris/TetraBlocks.h"
-#include "tetris/TetraWorldImpl.h"
+#include "tetra/Tetra.h"
+#include "tetra/TetraBlocks.h"
+#include "tetra/TetraWorldImpl.h"
 
 #include <format>
 

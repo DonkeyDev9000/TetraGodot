@@ -4,17 +4,15 @@
 #include "godot_cpp/classes/wrapped.hpp"
 #include "godot_cpp/variant/variant.hpp"
 
-using namespace godot;
+class ExampleClass : public godot::RefCounted {
+    GDCLASS(ExampleClass, RefCounted)
 
-class ExampleClass : public RefCounted {
-	GDCLASS(ExampleClass, RefCounted)
+    double mAccumulate{};
 
 protected:
-	static void _bind_methods();
+    static void _bind_methods();
 
 public:
-	ExampleClass() = default;
-	~ExampleClass() override = default;
-
-	void print_type(const Variant &p_variant) const;
+    void print_type(const godot::Variant &p_variant) const;
+    bool accumulate(const double &delta);
 };

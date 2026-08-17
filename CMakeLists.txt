@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.17)
 if (CMAKE_C_COMPILER)
 endif ()
 
-set(LIBNAME "EXTENSION-NAME") # "The name of the library"
+set(LIBNAME "libTetraExtension") # "The name of the library"
 set(GODOT_PROJECT_DIR "project" CACHE STRING "The directory of a Godot project folder")
 
 # Make sure all the dependencies are satisfied
@@ -41,13 +41,12 @@ include(GodotCPPModule)
 get_target_property(GODOTCPP_SUFFIX godot::cpp GODOTCPP_SUFFIX)
 get_target_property(GODOTCPP_PLATFORM godot::cpp GODOTCPP_PLATFORM)
 
+
+add_subdirectory(extern/TetraCore SYSTEM)
+
+
 # Now we can specify our own project which will inherit any global cmake properties or variables that have been defined.
-project(godot-cpp-template
-        VERSION 1.0
-        DESCRIPTION "This repository serves as a quickstart template for GDExtension development with Godot 4.0+."
-        HOMEPAGE_URL "https://github.com/enetheru/godot-cpp-template/tree/main"
-        LANGUAGES CXX
-)
+project(TetraGodot)
 
 add_library(${LIBNAME} SHARED)
 
@@ -57,6 +56,8 @@ target_sources(${LIBNAME}
         src/register_types.h
         src/example_class.cpp
         src/example_class.h
+        src/TetraPlayRegion.cpp
+        src/TetraPlayRegion.h
 )
 
 # Fetch a list of the xml files to use for documentation and add to our target
@@ -69,10 +70,13 @@ if (DOC_XML)
     endif ()
 endif ()
 
-target_link_libraries(${LIBNAME} PRIVATE godot-cpp)
+target_link_libraries(${LIBNAME} PRIVATE
+        godot-cpp
+        tetra-core
+)
 
 # Require at least C++17 for this target
-set_property(TARGET ${LIBNAME} PROPERTY CXX_STANDARD 17)
+set_property(TARGET ${LIBNAME} PROPERTY CXX_STANDARD 23)
 
 set_target_properties(${LIBNAME}
         PROPERTIES

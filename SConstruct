@@ -5,7 +5,7 @@ import sys
 from methods import print_error
 
 
-libname = "EXTENSION-NAME"
+libname = "TetraExtension"
 projectdir = "project"
 
 localEnv = Environment(tools=["default"], PLATFORM="")

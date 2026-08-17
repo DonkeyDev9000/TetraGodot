@@ -1,5 +1,6 @@
 #include "register_types.h"
 
+#include "TetraPlayRegion.h"
 #include "example_class.h"
 
 using namespace godot;
@@ -15,6 +16,8 @@ void fun::GodotRegister::InitializeModuleAtLevel(ModuleInitializationLevel modul
         case MODULE_INITIALIZATION_LEVEL_SCENE:
             print_line("InitializeModuleAtLevel - module::MODULE_INITIALIZATION_LEVEL_SCENE");
             GDREGISTER_CLASS(ExampleClass);
+            GDREGISTER_CLASS(TetraPlayRegion);
+            GDREGISTER_CLASS(TetraDisplayBlock);
             break;
         case MODULE_INITIALIZATION_LEVEL_EDITOR:
             print_line("InitializeModuleAtLevel - module::MODULE_INITIALIZATION_LEVEL_EDITOR");

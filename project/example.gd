@@ -2,6 +2,7 @@ extends Node
 
 @onready var mExample := ExampleClass.new()
 
+
 func _ready() -> void:
 	mExample.print_type(mExample)
 

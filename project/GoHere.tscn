@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://di4b5w4kt8t6p"]
 
 [ext_resource type="Texture2D" uid="uid://dbx66sovxd1" path="res://icon.svg" id="1_ddrd1"]
+[ext_resource type="Script" uid="uid://b0g10fv51a21u" path="res://texture_rect.gd" id="2_wrmw1"]
 
 [node name="GoHere" type="Node2D" unique_id=1383434394]
 
@@ -10,3 +11,6 @@ offset_top = 95.0
 offset_right = 899.0
 offset_bottom = 521.0
 texture = ExtResource("1_ddrd1")
+script = ExtResource("2_wrmw1")
+
+[node name="TetraPlayRegion" type="TetraPlayRegion" parent="." unique_id=1118551722]

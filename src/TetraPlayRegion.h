@@ -17,6 +17,8 @@
 #include "tetris/TetraBlocks.h"
 #include "tetris/TetraWorldImpl.h"
 
+#include <format>
+
 class TetraInputEvent {
 
     const float mRepeatDwell;
@@ -25,7 +27,7 @@ class TetraInputEvent {
     double mConsumedAccumulator = 0.0;
 
 public:
-    TetraInputEvent(float repeatDwell = .2) :
+    explicit TetraInputEvent(float repeatDwell = .2) :
         mRepeatDwell(repeatDwell) {}
 
     bool canConsume() {
@@ -60,7 +62,7 @@ public:
             currEngine->is_editor_hint()) {
             return;
         }
-        godot::Ref<godot::Resource> textureRef = godot::ResourceLoader::get_singleton()->load("res://assets/icon.svg");
+        godot::Ref<godot::Resource> textureRef = godot::ResourceLoader::get_singleton()->load("res://icon.svg");
         set_texture(textureRef);
     }
     void _process(double delta_time) override {
@@ -83,8 +85,8 @@ protected:
 class TetraPlayRegion : public godot::Node2D {
     GDCLASS(TetraPlayRegion, godot::Node2D);
 
-    static constexpr int sMaxX{10};
-    static constexpr int sMaxY{18};
+    static constexpr size_t sMaxX{10};
+    static constexpr size_t sMaxY{18};
 
     std::shared_ptr<TetraBoard> mTetraBoard{};
 
@@ -120,8 +122,8 @@ public:
         mTetraBoard = std::make_shared<TetraBoard>(sMaxX, sMaxY);
         mTetraBoard->initialize();
 
-        for (int x = 0; x < (int)sMaxX; x++) {
-            for (int y = 0; y < (int)sMaxY; y++) {
+        for (size_t x = 0; x < sMaxX; x++) {
+            for (size_t y = 0; y < sMaxY; y++) {
                 auto block = memnew(TetraDisplayBlock);
                 add_child(block);
                 mBlocks[x][y] = block;
@@ -130,8 +132,8 @@ public:
     }
 
     bool initializeBlocks() {
-        for (int x = 0; x < (int)sMaxX; x++) {
-            for (int y = 0; y < (int)sMaxY; y++) {
+        for (size_t x = 0; x < sMaxX; x++) {
+            for (size_t y = 0; y < sMaxY; y++) {
                 if (!mBlocks[x][y]->is_node_ready()) {
                     return false;
                 }
@@ -140,21 +142,25 @@ public:
 
         auto viewportSize = get_viewport()->get_visible_rect().size;
 
-        godot::UtilityFunctions::print("TetraPlayRegion screen ", viewportSize.height, viewportSize.width);
+        godot::UtilityFunctions::print(
+            std::format("TetraPlayRegion screen viewPortSize:({},{})",
+                        static_cast<int>(viewportSize.height),
+                        static_cast<int>(viewportSize.width))
+                .c_str());
 
-        float requestedWidth = viewportSize.width / (float)sMaxX;
+        float requestedWidth = viewportSize.width / static_cast<float>(sMaxX);
         auto scale = requestedWidth / mBlocks[0][0]->get_texture()->get_size().width;
         float halfDistance = requestedWidth / 2;
 
-        for (int x = 0; x < sMaxX; x++) {
-            for (int y = 0; y < sMaxY; y++) {
+        for (size_t x = 0; x < sMaxX; x++) {
+            for (size_t y = 0; y < sMaxY; y++) {
                 const auto &b = mBlocks[x][y];
                 b->set_scale(godot::Vector2{scale, scale});
                 auto vec = godot::Vector2{(halfDistance + requestedWidth * x),
                                           (halfDistance + requestedWidth * y)};
                 b->set_position(vec);
 
-                godot::UtilityFunctions::print("TetraPlayRegion screen ", x, ",", y, " ", vec.x, ",", vec.y);
+                godot::UtilityFunctions::print(std::format("TetraPlayRegion screen {},{} {},{}", x, y, vec.x, vec.y).c_str());
             }
         }
 
@@ -163,18 +169,18 @@ public:
 
     void _input(const godot::Ref<godot::InputEvent> &event) override {
         const auto &inputEvent = godot::Object::cast_to<const godot::InputEvent>(*event);
-        mRotateLeft = inputEvent->is_action_pressed("tetra_rotate_left");
-        mRotateRight = inputEvent->is_action_pressed("tetra_rotate_right");
+        mRotateLeft = inputEvent->is_action_pressed("ui_accept");
+        mRotateRight = inputEvent->is_action_pressed("ui_select");
 
-        if (inputEvent->is_action_pressed("tetra_move_right")) {
+        if (inputEvent->is_action_pressed("ui_right")) {
             mMoveRight.press();
-        } else if (inputEvent->is_action_released("tetra_move_right")) {
+        } else if (inputEvent->is_action_released("ui_right")) {
             mMoveRight.release();
         }
 
-        if (inputEvent->is_action_pressed("tetra_move_left")) {
+        if (inputEvent->is_action_pressed("ui_left")) {
             mMoveLeft.press();
-        } else if (inputEvent->is_action_released("tetra_move_left")) {
+        } else if (inputEvent->is_action_released("ui_left")) {
             mMoveLeft.release();
         }
     }

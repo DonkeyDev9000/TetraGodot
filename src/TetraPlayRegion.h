@@ -8,8 +8,8 @@
 #include <godot_cpp/classes/node2d.hpp>
 #include <godot_cpp/classes/viewport.hpp>
 #include <godot_cpp/classes/sprite2d.hpp>
-#include <godot_cpp/classes/input_event_key.hpp>
 #include <godot_cpp/classes/display_server.hpp>
+#include <godot_cpp/classes/input_event_key.hpp>
 
 #include "godot_cpp/variant/utility_functions.hpp"
 
@@ -203,20 +203,20 @@ public:
         std::vector<TetraInput> inputs{};
         auto godotInput = godot::Input::get_singleton();
         if (mMoveLeft.canConsume()) {
-            inputs.emplace_back(TetraInput::moveLeft);
+            inputs.emplace_back(moveLeft);
         }
         if (mMoveRight.canConsume()) {
-            inputs.emplace_back(TetraInput::moveRight);
+            inputs.emplace_back(moveRight);
         }
         if (godotInput->is_key_pressed(godot::Key::KEY_DOWN)) {
-            inputs.emplace_back(TetraInput::moveDown);
+            inputs.emplace_back(moveDown);
         }
         if (mRotateLeft) {
-            inputs.emplace_back(TetraInput::spinLeft);
+            inputs.emplace_back(spinLeft);
             mRotateLeft = false;
         }
         if (mRotateRight) {
-            inputs.emplace_back(TetraInput::spinRight);
+            inputs.emplace_back(spinRight);
             mRotateRight = false;
         }
 
@@ -227,7 +227,7 @@ public:
 
         if (mCumulativeTime >= .5) {
             mCumulativeTime = 0.0;
-            mTetraBoard->worldStep(WorldStepParams{false});
+            mTetraBoard->worldStep();
             screenNeedsUpdated = true;
         }
 
@@ -238,8 +238,8 @@ public:
                     b->set_visible(false);
                 }
             }
-            for (const auto &block : mTetraBoard->getCurrentWorld()) {
-                mBlocks[block.getX()][block.getY()]->set_visible(true);
+            for (const auto &[x, y] : mTetraBoard->getCurrentWorld()) {
+                mBlocks[x][y]->set_visible(true);
             }
         }
     }

@@ -97,6 +97,8 @@ class TetraPlayRegion : public godot::Node2D {
     bool mInitialized = false;
     bool mRotateLeft = false;
     bool mRotateRight = false;
+    bool mHardPush = false;
+
     TetraInputEvent mMoveLeft{};
     TetraInputEvent mMoveRight{};
 
@@ -183,6 +185,10 @@ public:
         } else if (inputEvent->is_action_released("ui_left")) {
             mMoveLeft.release();
         }
+
+        if (inputEvent->is_action_pressed("ui_up")) {
+            mHardPush = true;
+        }
     }
 
     void _process(double delta_time) override {
@@ -225,9 +231,10 @@ public:
             mTetraBoard->inputReceived(inputs);
         }
 
-        if (mCumulativeTime >= .5) {
+        if (mCumulativeTime >= .5 || mHardPush) {
             mCumulativeTime = 0.0;
-            mTetraBoard->worldStep();
+            mTetraBoard->worldStep(mHardPush);
+            mHardPush = false;
             screenNeedsUpdated = true;
         }
 

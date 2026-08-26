@@ -16,15 +16,15 @@ ios.arm64.double.debug = "./ios/libTetraExtension.ios.template_debug.arm64.doubl
 ios.arm64.single.release = "./ios/libTetraExtension.ios.template_release.arm64.dylib"
 ios.arm64.double.release = "./ios/libTetraExtension.ios.template_release.arm64.double.dylib"
 
-windows.x86_32.single.debug = "./windows/TextraExtension.windows.template_debug.x86_32.dll"
-windows.x86_32.double.debug = "./windows/TextraExtension.windows.template_debug.x86_32.double.dll"
-windows.x86_32.single.release = "./windows/TextraExtension.windows.template_release.x86_32.dll"
-windows.x86_32.double.release = "./windows/TextraExtension.windows.template_release.x86_32.double.dll"
+windows.x86_32.single.debug = "./windows/libTetraExtension.windows.template_debug.x86_32.dll"
+windows.x86_32.double.debug = "./windows/libTetraExtension.windows.template_debug.x86_32.double.dll"
+windows.x86_32.single.release = "./windows/libTetraExtension.windows.template_release.x86_32.dll"
+windows.x86_32.double.release = "./windows/libTetraExtension.windows.template_release.x86_32.double.dll"
 
-windows.x86_64.single.debug = "./windows/TextraExtension.windows.template_debug.x86_64.dll"
-windows.x86_64.double.debug = "./windows/TextraExtension.windows.template_debug.x86_64.double.dll"
-windows.x86_64.single.release = "./windows/TextraExtension.windows.template_release.x86_64.dll"
-windows.x86_64.double.release = "./windows/TextraExtension.windows.template_release.x86_64.double.dll"
+windows.x86_64.single.debug = "./windows/libTetraExtension.windows.template_debug.x86_64.dll"
+windows.x86_64.double.debug = "./windows/libTetraExtension.windows.template_debug.x86_64.double.dll"
+windows.x86_64.single.release = "./windows/libTetraExtension.windows.template_release.x86_64.dll"
+windows.x86_64.double.release = "./windows/libTetraExtension.windows.template_release.x86_64.double.dll"
 
 linux.x86_64.single.debug = "./linux/libTetraExtension.linux.template_debug.x86_64.so"
 linux.x86_64.double.debug = "./linux/libTetraExtension.linux.template_debug.x86_64.double.so"

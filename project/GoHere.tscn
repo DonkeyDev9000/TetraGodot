@@ -6,10 +6,8 @@
 [node name="GoHere" type="Node2D" unique_id=1383434394]
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1099864098]
-offset_left = 309.0
-offset_top = 95.0
-offset_right = 899.0
-offset_bottom = 521.0
+offset_right = 443.0
+offset_bottom = 800.0
 texture = ExtResource("1_ddrd1")
 script = ExtResource("2_wrmw1")
 

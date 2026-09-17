@@ -12,7 +12,5 @@ void ExampleClass::print_type(const godot::Variant &p_variant) const {
 }
 bool ExampleClass::accumulate(const double &delta) {
     mAccumulate += delta;
-    godot::print_line(std::format("maccum:{:.2f}", mAccumulate).c_str());
-
     return mAccumulate >= 1.0;
 }

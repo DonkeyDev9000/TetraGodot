@@ -142,7 +142,7 @@ public:
             }
         }
 
-        auto viewportSize = get_viewport()->get_visible_rect().size;
+        const auto viewportSize = get_viewport()->get_visible_rect().size;
 
         godot::UtilityFunctions::print(
             std::format("TetraPlayRegion screen viewPortSize:({},{})",
@@ -150,19 +150,26 @@ public:
                         static_cast<int>(viewportSize.width))
                 .c_str());
 
-        float requestedWidth = viewportSize.width / static_cast<float>(sMaxX);
-        auto scale = requestedWidth / mBlocks[0][0]->get_texture()->get_size().width;
-        float halfDistance = requestedWidth / 2;
+        const auto eachBlockHeight = viewportSize.height / static_cast<float>(sMaxY);
+        const auto graphicsScale = eachBlockHeight / mBlocks[0][0]->get_texture()->get_size().height;
+        const auto halfHeight = eachBlockHeight / 2;
+
+        godot::UtilityFunctions::print(
+            std::format("TetraPlayRegion regionWidth:{:.2f} blockHeight:{:.2f} scale:{:.2f}",
+                        eachBlockHeight * sMaxX,
+                        eachBlockHeight,
+                        graphicsScale)
+                .c_str());
 
         for (size_t x = 0; x < sMaxX; x++) {
             for (size_t y = 0; y < sMaxY; y++) {
                 const auto &b = mBlocks[x][y];
-                b->set_scale(godot::Vector2{scale, scale});
-                auto vec = godot::Vector2{(halfDistance + requestedWidth * x),
-                                          (halfDistance + requestedWidth * y)};
+                b->set_scale(godot::Vector2{graphicsScale, graphicsScale});
+                auto vec = godot::Vector2{(halfHeight + eachBlockHeight * x),
+                                          (halfHeight + eachBlockHeight * y)};
                 b->set_position(vec);
 
-                godot::UtilityFunctions::print(std::format("TetraPlayRegion screen {},{} {},{}", x, y, vec.x, vec.y).c_str());
+                // godot::UtilityFunctions::print(std::format("TetraPlayRegion screen {},{} {},{}", x, y, vec.x, vec.y).c_str());
             }
         }
 
@@ -171,8 +178,8 @@ public:
 
     void _input(const godot::Ref<godot::InputEvent> &event) override {
         const auto &inputEvent = godot::Object::cast_to<const godot::InputEvent>(*event);
-        mRotateLeft = inputEvent->is_action_pressed("ui_accept");
-        mRotateRight = inputEvent->is_action_pressed("ui_select");
+        mRotateLeft = inputEvent->is_action_pressed("spin-left");
+        mRotateRight = inputEvent->is_action_pressed("spin-right");
 
         if (inputEvent->is_action_pressed("ui_right")) {
             mMoveRight.press();

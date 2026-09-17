@@ -1,11 +1,20 @@
 # Using the same minimum as the godot-cpp project
 cmake_minimum_required(VERSION 3.17)
 
+# Now we can specify our own project which will inherit any global cmake properties or variables that have been defined.
+project(tetra_godot)
+
 # Silence unused variable warning when specified from toolchain
 if (CMAKE_C_COMPILER)
 endif ()
 
 set(LIBNAME "libTetraExtension") # "The name of the library"
+
+
+if (EMSCRIPTEN) # This was giving me problems on mac, need to verify on linux/windows and fix correctly
+    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+endif()
+
 set(GODOT_PROJECT_DIR "project" CACHE STRING "The directory of a Godot project folder")
 
 # Make sure all the dependencies are satisfied
@@ -27,7 +36,9 @@ endif ()
 add_subdirectory(godot-cpp SYSTEM)
 
 # When compiling for emscripten, this toolchainhack needs to be included.
-# set(CMAKE_PROJECT_<project-name>_INCLUDE ${godot-cpp_SOURCE_DIR}/cmake/emsdkHack.cmake)
+if (EMSCRIPTEN)
+    set(CMAKE_PROJECT_tetra_godot_INCLUDE ${godot-cpp_SOURCE_DIR}/cmake/emsdkHack.cmake)
+endif()
 
 # Create the gen directory at configure time so IDEs can see generated headers immediately after generate_bindings
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/godot-cpp/gen/include")
@@ -41,14 +52,14 @@ include(GodotCPPModule)
 get_target_property(GODOTCPP_SUFFIX godot::cpp GODOTCPP_SUFFIX)
 get_target_property(GODOTCPP_PLATFORM godot::cpp GODOTCPP_PLATFORM)
 
-
 add_subdirectory(extern/TetraCore SYSTEM)
 
-
-# Now we can specify our own project which will inherit any global cmake properties or variables that have been defined.
-project(tetra-godot)
-
 add_library(${LIBNAME} SHARED)
+
+# Force .wasm extension when building for Emscripten/Web
+if (EMSCRIPTEN)
+    set_target_properties(${LIBNAME} PROPERTIES SUFFIX ".wasm")
+endif()
 
 target_sources(${LIBNAME}
         PRIVATE

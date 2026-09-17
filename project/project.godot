@@ -23,3 +23,7 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=1000
 window/size/viewport_height=1790
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
